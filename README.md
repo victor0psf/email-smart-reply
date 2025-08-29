@@ -45,7 +45,7 @@ email-smart-reply/
     produtivo1.txt
     improdutivo1.txt
   requirements.txt
-  render.yml            # Deploy 1‑click no Render
+  render.yaml            # Deploy 1‑click no Render
   .gitignore
   README.md
 ```
@@ -54,7 +54,7 @@ email-smart-reply/
 
 1. Crie um repositório no GitHub com estes arquivos.
 2. No [Render](https://render.com), **New > Web Service** e conecte o repositório.
-3. Ambiente: **Python**. O Render lerá `render.yml` com:
+3. Ambiente: **Python**. O Render lerá `render.yaml` com:
    - build: `pip install -r requirements.txt`
    - start: `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
 4. Adicione a env var `GROQ_API_KEY` (opcional).
