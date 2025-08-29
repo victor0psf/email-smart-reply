@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 # 3) (Opcional) Defina a variável de ambiente para usar a OpenAI
 # Powershell (Windows):
-#   setx GROQ_API_KEY "sua_chave_aqui"
+#  $Env:GROQ_API_KEY = "sua_chave_aqui"
 # Linux/Mac (bash):
 #   export GROQ_API_KEY="sua_chave_aqui"
 
@@ -57,7 +57,7 @@ email-smart-reply/
 3. Ambiente: **Python**. O Render lerá `render.yml` com:
    - build: `pip install -r requirements.txt`
    - start: `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
-4. Adicione a env var `OPENAI_API_KEY` (opcional).
+4. Adicione a env var `GROQ_API_KEY` (opcional).
 5. Deploy. A URL pública ficará disponível após o build.
 
 ## Como funciona (alto nível)
