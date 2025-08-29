@@ -7,4 +7,4 @@ services:
     startCommand: uvicorn email-backend.app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: GROQ_API_KEY
-    sync: false
+    sync: true
