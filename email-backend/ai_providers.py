@@ -27,7 +27,7 @@ def category_by_rules(text: str) -> str:
     if improdutivo and not produtivo:
         return "Improdutivo"
 
-    if "?" in t or re.search(r"\b(nº|n°|numero|protocolo|pedido\s*#?\d+)\b", t):
+    if "?" in t or re.search(r"\b(nº|n°|n[uú]mero|protocolo|pedido\s*#?\d+)\b", t):
         return "Produtivo"
 
     return "Improdutivo"
@@ -47,14 +47,7 @@ def template_reply(category: str) -> str:
         "Se precisar de suporte ou acompanhamento de atendimento, responda este email com mais detalhes."
     )
 
-
-def categorize_and_respond(text: str) -> Tuple[str, str]:
-    category = category_by_rules(text)
-    response = template_reply(category)
-    return category, response
-
-
-# ----------- Provedores de IA ------------ #
+# ----------- Provedor de IA ------------ #
 
 def use_ia() -> bool:
     """True se existir pelo menos um provedor configurado."""
@@ -86,10 +79,12 @@ def groq(text: str):
             messages=prompt_messages(text),
             temperature=0.2,
             timeout=20,
+            response_format={"type": "json_object"}
         )
         return out.choices[0].message.content
     except Exception:
         return None
+    
 
 def categorize_respond_ia(text: str) -> Tuple[str, str]:
     raw = None
@@ -111,4 +106,23 @@ def categorize_respond_ia(text: str) -> Tuple[str, str]:
     if not resposta:
         raise ValueError("IA não retornou resposta.")
 
+    return categoria, resposta
+
+# ----------- Orquestrador com fallback ------------ #
+
+def categorize_respond(text: str) -> Tuple[str, str]:
+
+    if use_ia():
+        try:
+            raw = groq(text)
+            if raw:
+                data = json.loads(raw)
+                categoria = (data.get("categoria") or "").strip()
+                resposta = (data.get("resposta") or "").strip()
+                if categoria in ("Produtivo", "Improdutivo") and resposta:
+                    return categoria, resposta
+        except Exception:
+            pass
+    categoria = category_by_rules(text)
+    resposta  = template_reply(categoria)
     return categoria, resposta

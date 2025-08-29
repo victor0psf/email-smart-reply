@@ -6,7 +6,7 @@ import io
 
 from pypdf import PdfReader
 from .schemas import EmailResult
-from .ai_providers import categorize_respond_ia, use_ia
+from .ai_providers import categorize_respond 
 
 # Instancia da minha FastAPI
 app = FastAPI(title="Email Backend API", version="0.2.0")
@@ -29,9 +29,10 @@ def extract_content_from_file(file: UploadFile) -> str:
         raw = file.file.read()
         reader = PdfReader(io.BytesIO(raw))
         pages_text = [page.extract_text() or "" for page in reader.pages]
-        return "\n".join(pages_text)
-    else:
-        raise HTTPException(status_code=400, detail="Formato de arquivo não suportado. Use .txt ou .pdf.")
+        text_joined = "\n".join(pages_text).strip()
+    if not text_joined:
+        raise HTTPException(status_code=400, detail="Não foi possível extrair texto do .txt ou .pdf!")
+    return text_joined
 
 @app.post("/api/process-email", response_model=EmailResult)
 async def process_email(
@@ -47,13 +48,10 @@ async def process_email(
         content = (text or "")
 
     content = content.strip()
-    try:
-        categoria, resposta = categorize_respond_ia(content)
-    except ValueError as ve:
-        raise HTTPException(status_code=502, detail=f"Resposta inválida do provedor de IA: {ve}")
-    except Exception:
-        raise HTTPException(status_code=502, detail="Falha ao obter resposta do provedor de IA.")
+    if not content:
+        raise HTTPException(status_code=400, detail="Conteúdo vazio após extração.")    
 
+    categoria, resposta = categorize_respond(content)
     return EmailResult(categoria=categoria, resposta=resposta)
 
 
