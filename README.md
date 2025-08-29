@@ -32,14 +32,14 @@ Depois acesse: http://127.0.0.1:8000
 ## Estrutura
 
 ```
-email-smart-reply/
-  backend/
+email-smart/
+  email_backend/
     app.py               # Endpoints FastAPI + leitura .txt/.pdf
     ai_providers.py      # Integração OpenAI + heurísticas fallback
     schemas.py           # Modelos Pydantic das respostas
-  frontend/
+  email-frontend/
     index.html           # UI HTML
-    styles.css           # Estilos (gradiente escuro clean)
+    styles.css           # Estilos
     app.js               # Lógica de chamada ao backend
   sample_emails/
     produtivo1.txt
@@ -56,7 +56,7 @@ email-smart-reply/
 2. No [Render](https://render.com), **New > Web Service** e conecte o repositório.
 3. Ambiente: **Python**. O Render lerá `render.yaml` com:
    - build: `pip install -r requirements.txt`
-   - start: `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`
+   - start: `uvicorn email_backend.app:app --host 0.0.0.0 --port $PORT`
 4. Adicione a env var `GROQ_API_KEY` (opcional).
 5. Deploy. A URL pública ficará disponível após o build.
 
