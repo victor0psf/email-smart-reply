@@ -55,5 +55,5 @@ async def process_email(
     return EmailResult(categoria=categoria, resposta=resposta)
 
 
-app.mount("/", StaticFiles(directory="email-frontend", html=True), name="email-frontend")
+app.mount("/", StaticFiles(directory="email_frontend", html=True), name="email_frontend")
 
