@@ -15,7 +15,7 @@ source .venv/bin/activate  # Linux/Mac
 # 2) Instale dependências
 pip install -r requirements.txt
 
-# 3) (Opcional) Defina a variável de ambiente para usar a OpenAI
+# 3) (Opcional) Defina a variável de ambiente para usar a GroqAI
 # Powershell (Windows):
 #  $Env:GROQ_API_KEY = "sua_chave_aqui"
 # Linux/Mac (bash):
