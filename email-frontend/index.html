@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Email Smart Reply</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Classificação de Emails & Resposta</h1>
+    </header>
+
+    <main>
+      <form id="form" class="card">
+        <label class="label" for="text">Texto do email</label>
+        <textarea
+          id="text"
+          class="textarea"
+          placeholder="Cole aqui o conteúdo do email..."
+        ></textarea>
+
+        <div class="row mt-8">
+          <label class="label" for="file"
+            >ou envie um arquivo (.txt, .pdf)</label
+          >
+          <input id="file" type="file" accept=".txt,.pdf" />
+        </div>
+
+        <div class="row mt-8">
+          <button id="go" type="submit" class="btn">Processar</button>
+          <button id="clear" type="button" class="btn btn-ghost">Limpar</button>
+        </div>
+      </form>
+
+      <section class="card result">
+        <div class="kv">
+          <div class="k">Categoria:</div>
+          <div id="categoria" class="chip">
+            <span class="dot"></span>
+            <span class="label">-</span>
+          </div>
+        </div>
+        <div class="kv mt-6">
+          <div class="k">Resposta:</div>
+          <div id="resposta">-</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small
+        >Backend: FastAPI • Endpoint: <code>/api/process-email</code></small
+      >
+    </footer>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
